@@ -11,6 +11,8 @@ import (
 	"Hackathon/controller/post"
 	"Hackathon/controller/post/reaction"
 	"Hackathon/controller/post/sticker"
+	"Hackathon/controller/user"
+	"Hackathon/middleware"
 	"Hackathon/model"
 	"github.com/gin-gonic/gin"
 	"github.com/joho/godotenv"
