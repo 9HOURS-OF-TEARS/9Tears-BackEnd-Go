@@ -28,6 +28,7 @@ func main() {
 		c.Status(http.StatusInternalServerError)
 	}))
 	r.Use(gin.Logger())
+	r.POST("/user/login", user.Login())
 
 	postAPI := r.Group("/post")
 	{
