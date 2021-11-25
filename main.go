@@ -30,10 +30,10 @@ func main() {
 	r.Use(gin.Logger())
 	r.POST("/user/login", user.Login())
 
-	postAPI := r.Group("/post")
+	postAPI := r.Group("/post", middleware.Auth())
 	{
-		postAPI.POST("/", post.Create())
-		postAPI.GET("/", post.GetList())
+		postAPI.POST("", post.Create())
+		postAPI.GET("", post.GetList())
 		postAPI.GET("/:post_id", post.Get())
 		postAPI.PATCH("/:post_id", post.Edit())
 		postAPI.DELETE("/:post_id", post.Delete())
