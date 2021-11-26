@@ -19,8 +19,7 @@ func Like() gin.HandlerFunc {
 			return
 		}
 
-		if err := model.DB.Model(&dto.Post{}).Where("id = ?", ID).Update("like_count",
-			"like_count + 1").Error; err != nil {
+		if err := model.DB.Exec("update post set like_count = like_count + 1 where id = ?", ID).Error; err != nil {
 			if errors.Is(err, gorm.ErrRecordNotFound) {
 				c.Status(http.StatusBadRequest)
 				return

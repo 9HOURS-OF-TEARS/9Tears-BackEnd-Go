@@ -19,8 +19,7 @@ func CancelDislike() gin.HandlerFunc {
 			return
 		}
 
-		if err := model.DB.Model(&dto.PostLike{}).Where("id = ?", ID).Update("dislike_count",
-			"dislike_count - 1").Error; err != nil {
+		if err := model.DB.Exec("update post set dislike_count = dislike_count - 1 where id = ?", ID).Error; err != nil {
 			if errors.Is(err, gorm.ErrRecordNotFound) {
 				c.Status(http.StatusBadRequest)
 				return
