@@ -10,6 +10,8 @@ type Post struct {
 	IsAnonymous  bool      `json:"is_anonymous,omitempty"`
 	LikeCount    uint      `json:"like_count,omitempty"`
 	DislikeCount uint      `json:"dislike_count,omitempty"`
+	ViewCount    uint      `json:"view_count,omitempty"`
+	StickerCount uint      `json:"sticker_count,omitempty"`
 	CreatedAt    time.Time `json:"created_at"`
 
 	Comment []Comment `gorm:"foreignKey: PostID; constraint:OnUpdate:CASCADE,OnDelete:CASCADE" json:"comment"`

@@ -12,12 +12,14 @@ import (
 func GetList() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		type post struct {
+			ID           uint   `json:"id"`
 			Title        string `json:"title"`
 			Nickname     string `json:"nickname"`
 			CreatedAt    string `json:"created_at"`
 			CommentCount uint   `json:"comment_count"`
 			LikeCount    uint   `json:"like_count"`
 			DislikeCount uint   `json:"dislike_count"`
+			StickerCount uint   `json:"sticker_count"`
 		}
 
 		type response struct {
@@ -35,14 +37,14 @@ func GetList() gin.HandlerFunc {
 
 		subQuery := model.DB.Select("count(comment.id)").Group("post_id").Table("comment")
 		query := model.DB.Table("post").Select("post.id, post.title, post.created_at, u.nickname, post.like_count, "+
-			"post.dislike_count, (?) as comment_count", subQuery).Joins("join user u on post.user_id = u.id").
+			"post.dislike_count, post.sticker_count, (?) as comment_count", subQuery).Joins("join user u on post.user_id = u.id").
 			Group("post.id")
 
 		switch criterion {
 		case "latest":
-			query = query.Order("created_at")
+			query = query.Order("created_at desc")
 		case "popularity":
-			query = query.Order("like_count")
+			query = query.Order("like_count, created_at desc")
 			switch duration {
 			case "daily":
 				query = query.Where("created_at >= CURDATE() - interval 1 day")
